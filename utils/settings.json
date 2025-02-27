@@ -1,0 +1,35 @@
+{
+    "poppler_path": "",
+    "layers": [
+        {
+            "layer": 1,
+            "enabled": true,
+            "filter": "Negativ",
+            "strength": 0.5
+        },
+        {
+            "layer": 2,
+            "enabled": false,
+            "filter": "Helligkeit",
+            "strength": 0.7
+        },
+        {
+            "layer": 3,
+            "enabled": false,
+            "filter": "Kontrast",
+            "strength": 0.6
+        },
+        {
+            "layer": 4,
+            "enabled": false,
+            "filter": "Graustufen",
+            "strength": 1.0
+        },
+        {
+            "layer": 5,
+            "enabled": false,
+            "filter": "Sch\u00e4rfen",
+            "strength": 0.3
+        }
+    ]
+}
