@@ -1,4 +1,4 @@
-# Bildprozessor Pro
+# Bildprozessor Pro mit OCR
 
 ## Überblick
 
