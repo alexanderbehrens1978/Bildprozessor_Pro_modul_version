@@ -142,12 +142,12 @@ brew install tesseract
 
 ## Lizenz
 
-[Bitte Lizenzinformationen hier einfügen]
+GPL
 
 ## Mitwirkende
 
-[Bitte Mitwirkende hier auflisten]
+Alexander Behrens
 
 ## Kontakt
 
-[Kontaktinformationen hier einfügen]
+info <at) alexanderbehrensPUNKTcom
