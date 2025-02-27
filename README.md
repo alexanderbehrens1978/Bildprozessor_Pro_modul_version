@@ -140,9 +140,6 @@ brew install tesseract
 - Neuinstallation über Menü
 - Bei GPU-PaddleOCR: CUDA-Installation überprüfen
 
-## Lizenz
-
-GPL
 
 ## Mitwirkende
 
