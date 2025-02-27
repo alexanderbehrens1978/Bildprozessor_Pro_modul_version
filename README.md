@@ -110,7 +110,8 @@ Bei PaddleOCR mit GPU: Stellen Sie sicher, dass CUDA korrekt installiert ist
 
 Probleme beim Installieren von Paketen
 Wenn die automatische Installation von Paketen fehlschlägt, können Sie sie manuell installieren:
-Copypip install pillow pdf2image numpy matplotlib pytesseract paddleocr
+Copy
+pip install pillow pdf2image numpy matplotlib pytesseract paddleocr
 Poppler kann nicht installiert werden
 Bei Problemen mit der automatischen Poppler-Installation:
 
