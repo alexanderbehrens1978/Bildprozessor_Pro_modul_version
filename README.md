@@ -1,6 +1,6 @@
 Bildprozessor Pro
 Über
-Bildprozessor Pro ist eine Desktop-Anwendung zur Bildbearbeitung, die verschiedene Filter und Effekte auf Bilder anwenden kann. Die Anwendung unterstützt auch PDF-Dateien, die in bearbeitbare Bilder umgewandelt werden können.
+Bildprozessor Pro ist eine Desktop-Anwendung zur Bildbearbeitung, die verschiedene Filter und Effekte auf Bilder anwenden kann. Die Anwendung unterstützt auch PDF-Dateien, die in bearbeitbare Bilder umgewandelt werden können. Ab Version 1.1 bietet die Anwendung auch OCR-Funktionalität zur Texterkennung.
 Funktionen
 
 Laden von Bildern und PDF-Dateien
@@ -8,6 +8,8 @@ Anwendung von bis zu 5 Filtern gleichzeitig mit einstellbarer Stärke
 Vorschau von Original- und bearbeitetem Bild nebeneinander
 Speichern von bearbeiteten Bildern
 Speichern und Laden von Filtereinstellungen
+Texterkennung (OCR) mit Tesseract und PaddleOCR
+Unterstützung für GPU-beschleunigte OCR
 
 Installation
 Voraussetzungen
@@ -17,6 +19,8 @@ pillow (PIL)
 pdf2image
 numpy
 matplotlib
+pytesseract (für Tesseract OCR)
+paddleocr (für PaddleOCR)
 
 Poppler für PDF-Unterstützung
 Für die PDF-Unterstützung wird Poppler benötigt. Die Anwendung kann Poppler automatisch installieren:
@@ -35,6 +39,30 @@ Linux
 Copysudo apt-get install poppler-utils
 macOS
 Copybrew install poppler
+OCR-Engines
+Die Anwendung unterstützt zwei OCR-Engines:
+Tesseract OCR
+Die Anwendung kann Tesseract automatisch installieren:
+
+Wählen Sie im Menü "OCR" → "Tesseract OCR installieren"
+
+Oder manuell installieren:
+Windows
+
+Laden Sie den Tesseract-Installer herunter: https://github.com/UB-Mannheim/tesseract/wiki
+Führen Sie den Installer aus
+Stellen Sie sicher, dass Tesseract zum PATH hinzugefügt wird
+
+Linux
+Copysudo apt-get install tesseract-ocr libtesseract-dev
+macOS
+Copybrew install tesseract
+PaddleOCR
+Die Anwendung kann PaddleOCR automatisch installieren:
+
+Wählen Sie im Menü "OCR" → "PaddleOCR (CPU) installieren" oder "PaddleOCR (GPU) installieren"
+
+Die GPU-Version erfordert eine NVIDIA-Grafikkarte mit CUDA-Unterstützung.
 Verwendung
 Bild laden
 
@@ -48,6 +76,14 @@ Aktivieren Sie bis zu 5 Filter mit den Checkboxen
 Wählen Sie den Filtertyp aus den Dropdown-Menüs
 Stellen Sie die Stärke der Filter mit den Schiebereglern ein
 Das bearbeitete Bild wird rechts angezeigt
+
+Texterkennung (OCR)
+
+Laden Sie ein Bild und wenden Sie gewünschte Filter an
+Klicken Sie auf "OCR" → "Texterkennung (OCR)"
+Wählen Sie die OCR-Engine und Sprache
+Klicken Sie auf "Text erkennen"
+Der erkannte Text wird angezeigt und kann kopiert oder gespeichert werden
 
 Bild speichern
 
@@ -66,9 +102,15 @@ PDF-Unterstützung funktioniert nicht
 Überprüfen Sie, ob Poppler korrekt installiert ist
 Stellen Sie sicher, dass der Poppler-Pfad korrekt gesetzt ist unter "Einstellungen" → "Poppler Pfad setzen"
 
+OCR funktioniert nicht
+
+Überprüfen Sie, ob die gewählte OCR-Engine installiert ist
+Versuchen Sie, die OCR-Engine über das Menü "OCR" neu zu installieren
+Bei PaddleOCR mit GPU: Stellen Sie sicher, dass CUDA korrekt installiert ist
+
 Probleme beim Installieren von Paketen
 Wenn die automatische Installation von Paketen fehlschlägt, können Sie sie manuell installieren:
-Copypip install pillow pdf2image numpy matplotlib
+Copypip install pillow pdf2image numpy matplotlib pytesseract paddleocr
 Poppler kann nicht installiert werden
 Bei Problemen mit der automatischen Poppler-Installation:
 
@@ -97,3 +139,4 @@ Systemanforderungen
 Windows, Linux oder macOS
 Python 3.6 oder höher
 4 GB RAM empfohlen für größere Bilder
+Für PaddleOCR mit GPU: NVIDIA-Grafikkarte mit CUDA-Unterstützung

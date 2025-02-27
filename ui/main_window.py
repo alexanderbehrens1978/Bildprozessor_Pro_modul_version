@@ -19,13 +19,15 @@ from ui.menu import create_menu
 from ui.image_canvas import create_image_canvas, show_image
 from ui.filter_layers import create_layers_ui
 from image_processing.filters import apply_filter
+from ocr.ocr_installer import OCRInstaller
+from ui.ocr_ui import OCRDialog
 
 
 class ImageProcessorApp:
 	def __init__(self, root):
 		self.root = root
 		self.root.title(
-			"Bildprozessor Pro            Version 1.0        21.02.2025 von Alexander Behrens info@alexanderbehrens.com")
+			"Bildprozessor Pro            Version 1.1        27.02.2025 von Alexander Behrens info@alexanderbehrens.com")
 
 		# Initialize settings
 		self.settings_manager = SettingsManager()
@@ -34,6 +36,9 @@ class ImageProcessorApp:
 		self.original_image = None
 		self.processed_image = None
 		self.filename = None
+
+		# OCR Installer
+		self.ocr_installer = OCRInstaller(root)
 
 		# Create UI components
 		self.create_widgets()
@@ -111,6 +116,83 @@ class ImageProcessorApp:
 					img = apply_filter(img, filter_var.get(), strength_var.get())
 			self.processed_image = img
 			show_image(img, self.right_canvas)
+
+	# OCR-Funktionen
+	def show_ocr_dialog(self):
+		"""Öffnet den OCR-Dialog für die Texterkennung"""
+		if self.processed_image is None:
+			messagebox.showinfo("Kein Bild", "Bitte laden Sie zuerst ein Bild.")
+			return
+
+		# Öffne OCR-Dialog mit dem aktuellen Bild
+		dialog = OCRDialog(self.root, self.processed_image)
+		dialog.run()
+
+	def install_tesseract(self):
+		"""Installiert Tesseract OCR"""
+		self.ocr_installer.install_tesseract()
+
+	def install_paddleocr(self, with_gpu=False):
+		"""Installiert PaddleOCR mit oder ohne GPU-Unterstützung"""
+		self.ocr_installer.install_paddleocr(with_gpu)
+
+	def show_about(self):
+		"""Zeigt Informationen über die Anwendung an"""
+		about_window = tk.Toplevel(self.root)
+		about_window.title("Über Bildprozessor Pro")
+		about_window.geometry("400x300")
+		about_window.resizable(False, False)
+
+		# Zentriere das Fenster
+		about_window.update_idletasks()
+		width = about_window.winfo_width()
+		height = about_window.winfo_height()
+		x = (about_window.winfo_screenwidth() // 2) - (width // 2)
+		y = (about_window.winfo_screenheight() // 2) - (height // 2)
+		about_window.geometry(f"{width}x{height}+{x}+{y}")
+
+		# Inhalt
+		tk.Label(
+			about_window,
+			text="Bildprozessor Pro",
+			font=("Arial", 16, "bold")
+		).pack(pady=(20, 10))
+
+		tk.Label(
+			about_window,
+			text="Version 1.1"
+		).pack()
+
+		tk.Label(
+			about_window,
+			text="© 2025 Alexander Behrens"
+		).pack(pady=5)
+
+		tk.Label(
+			about_window,
+			text="info@alexanderbehrens.com"
+		).pack()
+
+		features_text = """
+Funktionen:
+- Bildbearbeitung mit 20 verschiedenen Filtern
+- PDF-Unterstützung
+- Speichern und Laden von Filtereinstellungen
+- Text-Erkennung mit Tesseract OCR und PaddleOCR
+        """
+
+		tk.Label(
+			about_window,
+			text=features_text,
+			justify=tk.LEFT
+		).pack(pady=10)
+
+		# Schließen-Button
+		tk.Button(
+			about_window,
+			text="Schließen",
+			command=about_window.destroy
+		).pack(pady=10)
 
 	def save_image(self):
 		if self.processed_image:

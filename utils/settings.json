@@ -1,23 +1,23 @@
 {
-    "poppler_path": "",
+    "poppler_path": "C:/Users/axell/source/Bildprozessor_Pro_Claude/utils/poppler_bin/Library/bin",
     "layers": [
         {
             "layer": 1,
             "enabled": true,
-            "filter": "Negativ",
-            "strength": 0.5
+            "filter": "Multiplikation",
+            "strength": 0.47
         },
         {
             "layer": 2,
-            "enabled": false,
+            "enabled": true,
             "filter": "Helligkeit",
             "strength": 0.7
         },
         {
             "layer": 3,
-            "enabled": false,
+            "enabled": true,
             "filter": "Kontrast",
-            "strength": 0.6
+            "strength": 1.0
         },
         {
             "layer": 4,

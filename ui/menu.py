@@ -21,6 +21,20 @@ def create_menu(root, app):
 	settings_menu.add_command(label="Install Poppler", command=lambda: app.install_poppler())
 	menu_bar.add_cascade(label="Settings", menu=settings_menu)
 
+	# OCR-Menü
+	ocr_menu = tk.Menu(menu_bar, tearoff=0)
+	ocr_menu.add_command(label="Texterkennung (OCR)", command=app.show_ocr_dialog)
+	ocr_menu.add_separator()
+	ocr_menu.add_command(label="Tesseract OCR installieren", command=app.install_tesseract)
+	ocr_menu.add_command(label="PaddleOCR (CPU) installieren", command=lambda: app.install_paddleocr(False))
+	ocr_menu.add_command(label="PaddleOCR (GPU) installieren", command=lambda: app.install_paddleocr(True))
+	menu_bar.add_cascade(label="OCR", menu=ocr_menu)
+
+	# Hilfe-Menü
+	help_menu = tk.Menu(menu_bar, tearoff=0)
+	help_menu.add_command(label="Über", command=app.show_about)
+	menu_bar.add_cascade(label="Hilfe", menu=help_menu)
+
 	root.config(menu=menu_bar)
 
 	return menu_bar

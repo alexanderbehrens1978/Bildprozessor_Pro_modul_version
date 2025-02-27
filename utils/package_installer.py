@@ -10,15 +10,47 @@ def check_and_install_packages():
 	Überprüft alle benötigten Pakete und installiert fehlende automatisch.
 	Gibt True zurück, wenn alle Pakete verfügbar sind (nach Installation), sonst False.
 	"""
+	# Grundlegende Pakete, die für die Hauptfunktionalität benötigt werden
 	required_packages = {
 		'PIL': 'pillow',
 		'pdf2image': 'pdf2image',
-		'tkinter': None  # tkinter ist Teil der Standard-Python-Installation
+		'tkinter': None,  # tkinter ist Teil der Standard-Python-Installation
+		'numpy': 'numpy',  # für fortgeschrittene Bildverarbeitung
+		'matplotlib': 'matplotlib',  # für Histogrammanzeige und andere Visualisierungen
 	}
 
+	# OCR-spezifische Pakete - werden separat behandelt, da sie schwieriger zu installieren sind
+	ocr_packages = {
+		'pytesseract': 'pytesseract',  # Python-Bindings für Tesseract OCR
+		'paddle': 'paddlepaddle',  # PaddlePaddle Framework
+		'paddleocr': 'paddleocr'  # PaddleOCR-Engine
+	}
+
+	# Prüfe und installiere zuerst die grundlegenden Pakete
+	missing_packages = check_missing_packages(required_packages)
+
+	if missing_packages:
+		success = install_missing_packages(missing_packages)
+		if not success:
+			return False
+
+	# Informiere über OCR-Pakete, aber versuche nicht, sie automatisch zu installieren
+	# (das wird von den spezialisierten OCR-Installationsroutinen gemacht)
+	missing_ocr = check_missing_packages(ocr_packages)
+	if missing_ocr:
+		package_names = [pkg_name for _, pkg_name in missing_ocr]
+		package_list = ", ".join(package_names)
+		print(f"OCR-Funktionalität: Folgende OCR-Pakete sind nicht installiert: {package_list}")
+		print("Diese können bei Bedarf über das OCR-Menü installiert werden.")
+
+	return True
+
+
+def check_missing_packages(packages_dict):
+	"""Überprüft, welche Pakete aus dem Dictionary fehlen"""
 	missing_packages = []
 
-	for module_name, package_name in required_packages.items():
+	for module_name, package_name in packages_dict.items():
 		if package_name is None:
 			continue  # Überspringen, wenn kein Paket-Name angegeben ist (z.B. für tkinter)
 
@@ -27,11 +59,7 @@ def check_and_install_packages():
 		except ImportError:
 			missing_packages.append((module_name, package_name))
 
-	if not missing_packages:
-		return True
-
-	# Zeige Dialog, um fehlende Pakete zu installieren
-	return install_missing_packages(missing_packages)
+	return missing_packages
 
 
 def install_missing_packages(missing_packages):
@@ -39,77 +67,101 @@ def install_missing_packages(missing_packages):
 	if not missing_packages:
 		return True
 
-	package_names = [pkg_name for _, pkg_name in missing_packages]
-	package_list = ", ".join(package_names)
-
-	answer = messagebox.askyesno(
-		"Fehlende Pakete",
-		f"Die folgenden Pakete sind nicht installiert, werden aber benötigt:\n\n{package_list}\n\n"
-		"Sollen diese Pakete jetzt installiert werden?"
-	)
-
-	if not answer:
-		messagebox.showerror(
-			"Fehlende Pakete",
-			"Die Anwendung kann ohne die erforderlichen Pakete nicht ausgeführt werden."
-		)
-		return False
-
+	# Root-Fenster für Dialog erstellen
+	root = None
 	try:
-		# Installiere pip, falls es nicht verfügbar ist
-		try:
-			subprocess.check_call([sys.executable, "-m", "pip", "--version"],
-								  stdout=subprocess.DEVNULL,
-								  stderr=subprocess.DEVNULL)
-		except subprocess.CalledProcessError:
-			messagebox.showinfo(
-				"Pip installieren",
-				"Pip wird installiert. Dies kann einen Moment dauern..."
+		root = tk.Tk()
+		root.withdraw()  # Verstecke das Fenster
+
+		package_names = [pkg_name for _, pkg_name in missing_packages]
+		package_list = ", ".join(package_names)
+
+		answer = messagebox.askyesno(
+			"Fehlende Pakete",
+			f"Die folgenden Pakete sind nicht installiert, werden aber benötigt:\n\n{package_list}\n\n"
+			"Sollen diese Pakete jetzt installiert werden?"
+		)
+
+		if not answer:
+			messagebox.showerror(
+				"Fehlende Pakete",
+				"Die Anwendung kann ohne die erforderlichen Pakete nicht ausgeführt werden."
 			)
-			subprocess.check_call([sys.executable, "-m", "ensurepip", "--default-pip"],
-								  stdout=subprocess.DEVNULL)
+			return False
 
-		# Installiere fehlende Pakete
-		progress_window = create_progress_window(package_names)
-
-		for i, (module_name, package_name) in enumerate(missing_packages):
-			update_progress(progress_window, f"Installiere {package_name}...", i, len(missing_packages))
-
+		try:
+			# Installiere pip, falls es nicht verfügbar ist
 			try:
-				subprocess.check_call(
-					[sys.executable, "-m", "pip", "install", package_name],
-					stdout=subprocess.DEVNULL,
-					stderr=subprocess.DEVNULL
+				subprocess.check_call([sys.executable, "-m", "pip", "--version"],
+									  stdout=subprocess.PIPE,
+									  stderr=subprocess.PIPE)
+			except subprocess.CalledProcessError:
+				messagebox.showinfo(
+					"Pip installieren",
+					"Pip wird installiert. Dies kann einen Moment dauern..."
 				)
+				subprocess.check_call([sys.executable, "-m", "ensurepip", "--default-pip"],
+									  stdout=subprocess.PIPE,
+									  stderr=subprocess.PIPE)
 
-				# Versuche, das Modul nach der Installation zu importieren
-				importlib.import_module(module_name)
-			except (subprocess.CalledProcessError, ImportError) as e:
-				progress_window.destroy()
-				messagebox.showerror(
-					"Installationsfehler",
-					f"Fehler beim Installieren von {package_name}: {str(e)}"
-				)
-				return False
+			# Installiere fehlende Pakete
+			progress_window = create_progress_window(root, package_names)
 
-		progress_window.destroy()
-		messagebox.showinfo(
-			"Installation abgeschlossen",
-			"Alle benötigten Pakete wurden erfolgreich installiert."
-		)
-		return True
+			for i, (module_name, package_name) in enumerate(missing_packages):
+				update_progress(progress_window, f"Installiere {package_name}...", i, len(missing_packages))
 
-	except Exception as e:
-		messagebox.showerror(
-			"Installationsfehler",
-			f"Ein Fehler ist bei der Installation aufgetreten: {str(e)}"
-		)
-		return False
+				try:
+					# Aktualisiere pip, wenn nötig
+					if i == 0:
+						try:
+							subprocess.check_call(
+								[sys.executable, "-m", "pip", "install", "--upgrade", "pip"],
+								stdout=subprocess.PIPE,
+								stderr=subprocess.PIPE
+							)
+						except:
+							# Ignoriere Fehler beim pip-Update
+							pass
+
+					# Installiere das Paket
+					subprocess.check_call(
+						[sys.executable, "-m", "pip", "install", package_name],
+						stdout=subprocess.PIPE,
+						stderr=subprocess.PIPE
+					)
+
+					# Versuche, das Modul nach der Installation zu importieren
+					importlib.import_module(module_name)
+				except (subprocess.CalledProcessError, ImportError) as e:
+					progress_window.destroy()
+					messagebox.showerror(
+						"Installationsfehler",
+						f"Fehler beim Installieren von {package_name}: {str(e)}"
+					)
+					return False
+
+			progress_window.destroy()
+			messagebox.showinfo(
+				"Installation abgeschlossen",
+				"Alle benötigten Pakete wurden erfolgreich installiert."
+			)
+			return True
+
+		except Exception as e:
+			messagebox.showerror(
+				"Installationsfehler",
+				f"Ein Fehler ist bei der Installation aufgetreten: {str(e)}"
+			)
+			return False
+
+	finally:
+		if root is not None and root.winfo_exists():
+			root.destroy()
 
 
-def create_progress_window(packages):
+def create_progress_window(parent, packages):
 	"""Erstellt ein Fortschrittsfenster für die Paket-Installation."""
-	window = tk.Toplevel()
+	window = tk.Toplevel(parent)
 	window.title("Pakete werden installiert")
 	window.geometry("400x150")
 	window.resizable(False, False)

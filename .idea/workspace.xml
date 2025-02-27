@@ -5,28 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b5f964c-8771-4597-89dc-be674060d280" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Bildprozessor_Pro_Claude.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/image_processing/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/image_processing/filters.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/filter_layers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/image_canvas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/main_window.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/package_installer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/path_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/poppler_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build_exe.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build_exe.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/create_exe.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/architecture.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/build_process.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/developer_guide.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/installation.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/modules.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/ocr_integration.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/user_guide.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/install_dependencies.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/install_dependencies.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ocr/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ocr/ocr_engine.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ocr/ocr_installer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/ocr_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/main_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/package_installer.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/package_installer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/utils/settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,9 +45,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;alexanderbehrens1978&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/alexanderbehrens1978/Bildprozessor_Pro_modul_version.git&quot;,
+    &quot;accountId&quot;: &quot;db74b17f-a29b-4e16-b1e2-b2c696644122&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2tdSLxHpUJbQwcoZ1rlbrUQHIM0" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -54,7 +68,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "PowerShell.create_exe.ps1.executor": "Run",
+    "Python.install_dependencies.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.ocr_installer.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master"
