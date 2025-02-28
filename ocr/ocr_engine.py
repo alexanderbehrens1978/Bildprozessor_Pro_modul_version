@@ -109,19 +109,47 @@ class OCREngine:
 				raise Exception("Tesseract (pytesseract) ist nicht installiert")
 
 	def _init_paddleocr(self, use_gpu=False):
-		"""Initialisiert die PaddleOCR-Engine"""
+		"""Initialisiert die PaddleOCR-Engine mit Berücksichtigung der Python-Version"""
 		if self.paddleocr_engine is None:
 			try:
 				from paddleocr import PaddleOCR
-				# Reduziere Paddle-Debug-Output
-				os.environ['FLAGS_call_stack_level'] = '2'
-				self.paddleocr_engine = PaddleOCR(
-					use_angle_cls=True,
-					lang=self.paddleocr_language,
-					use_gpu=use_gpu
-				)
+
+				# Spezielle Konfiguration für Python 3.11+
+				py_version = sys.version_info
+				if py_version.major == 3 and py_version.minor >= 11:
+					# Reduziere Fehlerausgaben
+					os.environ['FLAGS_call_stack_level'] = '0'
+
+					# Versuche mit zusätzlichen Parametern für bessere Kompatibilität
+					try:
+						self.paddleocr_engine = PaddleOCR(
+							use_angle_cls=True,
+							lang=self.paddleocr_language,
+							use_gpu=use_gpu,
+							show_log=False,  # Reduziert Fehlerausgaben
+							use_mp=False,  # Reduziert Multiprocessing-Probleme in 3.11+
+							enable_mkldnn=False
+						)
+					except Exception as e:
+						print(f"Warnung bei PaddleOCR-Initialisierung: {e}")
+						# Fallback zu minimaler Konfiguration
+						self.paddleocr_engine = PaddleOCR(
+							lang=self.paddleocr_language,
+							use_gpu=use_gpu,
+							show_log=False
+						)
+				else:
+					# Standard-Konfiguration für Python 3.7-3.10
+					os.environ['FLAGS_call_stack_level'] = '2'
+					self.paddleocr_engine = PaddleOCR(
+						use_angle_cls=True,
+						lang=self.paddleocr_language,
+						use_gpu=use_gpu
+					)
 			except ImportError:
 				raise Exception("PaddleOCR ist nicht installiert")
+			except Exception as e:
+				raise Exception(f"Fehler bei der Initialisierung von PaddleOCR: {e}")
 
 	def process_image(self, image, callback=None):
 		"""

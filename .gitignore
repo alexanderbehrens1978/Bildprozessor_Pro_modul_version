@@ -1,8 +1,8 @@
 __pycache__/
 *.pyc
-*.pyo"
+*.pyo
 *.pyd
-.DS_Store" >> .gitignore
+.DS_Store
 env/
 venv/
 .env
@@ -10,3 +10,5 @@ venv/
 build/
 dist/
 *.spec
+venv3.10/  # Zusätzliche Sicherheit für den Venv-Ordner
+.idea/
