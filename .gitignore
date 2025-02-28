@@ -10,5 +10,5 @@ venv/
 build/
 dist/
 *.spec
-venv3.10/  # Zusätzliche Sicherheit für den Venv-Ordner
+venv1/  # Zusätzliche Sicherheit für den Venv-Ordner
 .idea/
